@@ -1,16 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using WebStore.Models;
+
 
 namespace WebStore.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        private ApplicationDbContext db = new ApplicationDbContext();
+
+        public ActionResult Index(string searchString)
         {
-            return View();
+            var products = from p in db.Products
+                           select p;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                products = products.Where(p => p.Name.Contains(searchString) ||
+                p.Description.Contains(searchString));
+            }
+            return View(products.ToList());
         }
 
         public ActionResult About()

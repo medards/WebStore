@@ -29,5 +29,7 @@ namespace WebStore.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<WebStore.Models.Product> Products { get; set; }
     }
 }
