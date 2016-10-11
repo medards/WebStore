@@ -1,7 +1,10 @@
-﻿@model IEnumerable<WebStore.Models.Product>
+﻿
 @{
     ViewBag.Title = "Home Page";
 }
+@model PagedList.IPagedList<WebStore.Models.Product>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 <div class="row">
     <div class="col-md-4">
@@ -17,10 +20,10 @@
     </div>
         <div class="col-md-8">
             <div class="form-group"></div>
-            @using (Html.BeginForm())
+            @using (Html.BeginForm("Index","Home", FormMethod.Get))
             {
                 <p>
-                    @Html.TextBox("searchString")
+                    @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
                     <input type="submit" class="btn" value="Search" />
                 </p>
             }
@@ -51,7 +54,12 @@
         </td>
     </tr>
 }
-                </table>
-        </div>
 
+                </table>
+
+        </div>
+                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+                    @Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
 </div>
