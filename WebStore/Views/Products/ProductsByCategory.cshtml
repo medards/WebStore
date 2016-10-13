@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Products by Category";
+}
+@model IEnumerable<WebStore.Models.Product> 
+
+
+
+
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-6">
+            <div class="thumbnail">
+                <img src="/Images/@item.Image" alt="">
+                <div class="caption">
+                    <h4 class="pull-right">@Html.DisplayFor(modelItem => item.Price)€</h4>
+                    <h4>
+                        <a href="/Products/Details/@Html.DisplayFor(modelItem => item.ProductId)">@Html.DisplayFor(modelItem => item.Name)</a>
+                    </h4>
+
+
+
+
+
+
+                </div>
+
+            </div>
+        </div>
+    }
+
+
+
+</div>
+
+            </div>
+
+        </div>
+
+

@@ -37,7 +37,10 @@ namespace WebStore.Controllers
                 products = products.Where(p => p.Name.Contains(searchString) ||
                 p.Description.Contains(searchString));
             }
+            var categories = new SelectList(
+            db.Products.Select(r => r.Category).Distinct().ToList());
 
+            ViewBag.Categories = categories;
             switch (sortOrder)
             {
                 case "name_desc":
@@ -54,6 +57,42 @@ namespace WebStore.Controllers
             int pageSize = 4;
             int pageNumber = (page ?? 1);
             return View(products.ToPagedList(pageNumber, pageSize));
+        }
+        [Authorize(Roles = "canEdit")]
+        public ActionResult FileUpload(HttpPostedFileBase file)
+        {
+            if (file != null)
+            {
+                string pic = System.IO.Path.GetFileName(file.FileName);
+                string path = System.IO.Path.Combine(
+                                       Server.MapPath("~/Images"), pic);
+                // file is uploaded
+                file.SaveAs(path);
+
+                // save the image path path to the database or you can send image
+                // directly to database
+                // in-case if you want to store byte[] ie. for DB
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    file.InputStream.CopyTo(ms);
+                    byte[] array = ms.GetBuffer();
+                }
+
+            }
+            // after successfully uploading redirect the user
+            return RedirectToAction( "index");
+        }
+
+        [Authorize(Roles = "canEdit")]
+        public ActionResult UploadImage()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ViewResult ProductsByCategory(string id)
+        {
+            return View(db.Products.Where(p => p.Category == id).ToList());
         }
         // GET: Products/Details/5
         [AllowAnonymous]
@@ -89,7 +128,7 @@ namespace WebStore.Controllers
             {
                 db.Products.Add(product);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("UploadImage");
             }
 
             return View(product);
@@ -97,6 +136,7 @@ namespace WebStore.Controllers
 
 
         // GET: Products/Edit/5
+        [Authorize(Roles = "canEdit")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -128,6 +168,7 @@ namespace WebStore.Controllers
         }
 
         // GET: Products/Delete/5
+        [Authorize(Roles = "canEdit")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -143,6 +184,7 @@ namespace WebStore.Controllers
         }
 
         // POST: Products/Delete/5
+        [Authorize(Roles = "canEdit")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

@@ -10,9 +10,10 @@
 
             <div class="col-md-3">
                 <div class="list-group">
-                    <a href="#" class="list-group-item">Category 1</a>
-                    <a href="#" class="list-group-item">Category 2</a>
-                    <a href="#" class="list-group-item">Category 3</a>
+                @foreach (var item in Model)
+                {
+    <a class="list-group-item"href="Products/ProductsByCategory/@item.Category">@item.Category</a>
+                }
                 </div>
             </div>
 
@@ -31,7 +32,7 @@
                 <div class="row">
 @foreach (var item in Model)
 {
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <div class="thumbnail">
                             <img src="/Images/@item.Image" alt="">
                             <div class="caption">

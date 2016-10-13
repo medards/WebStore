@@ -34,7 +34,14 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("Browse", "Index", "Products")</li>
-                    <li>@Html.ActionLink("Add Product", "Create", "Products")</li>
+@if (ViewContext.HttpContext.User.IsInRole("canEdit"))
+{
+                        @Html.Raw("<li>");
+                    @Html.ActionLink("Add Product", "Create", "Products");
+                        @Html.Raw("</li>");
+                    
+                    
+}
                 </ul>
                 @Html.Partial("_LoginPartial")
 
