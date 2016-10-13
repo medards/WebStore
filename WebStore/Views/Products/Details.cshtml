@@ -35,9 +35,13 @@
     </div>
 
 </div>
+@if (ViewContext.HttpContext.User.IsInRole("canEdit"))
+{ 
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId });
+    @Html.Raw("|");
+    @Html.ActionLink("Delete", "Delete", new { id = Model.ProductId });
+    @Html.Raw("|");
 
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }) |
-    @Html.ActionLink("Delete", "Delete", new { id = Model.ProductId }) |
-    @Html.ActionLink("Back to Browse", "Index")
-</p>
+}
+
+@Html.ActionLink("Back to Browse", "Index")
