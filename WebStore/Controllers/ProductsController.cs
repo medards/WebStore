@@ -51,7 +51,7 @@ namespace WebStore.Controllers
                     break;
             }
 
-            int pageSize = 6;
+            int pageSize = 4;
             int pageNumber = (page ?? 1);
             return View(products.ToPagedList(pageNumber, pageSize));
         }

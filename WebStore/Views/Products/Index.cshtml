@@ -9,7 +9,6 @@
         <div class="row">
 
             <div class="col-md-3">
-                <p class="lead">Shop Name</p>
                 <div class="list-group">
                     <a href="#" class="list-group-item">Category 1</a>
                     <a href="#" class="list-group-item">Category 2</a>
@@ -17,14 +16,22 @@
                 </div>
             </div>
 
-            <div class="col-md-9">
+                <div class="form-group"></div>
+                @using (Html.BeginForm("Index", "Products", FormMethod.Get))
+            {
+                    <p>
+                        @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+                        <input type="submit" class="btn" value="Search" />
+                    </p>
+                }
+</div>
 
                
 
                 <div class="row">
 @foreach (var item in Model)
 {
-                    <div class="col-sm-4 col-lg-4 col-md-4">
+                    <div class="col-md-6">
                         <div class="thumbnail">
                             <img src="/Images/@item.Image" alt="">
                             <div class="caption">
@@ -45,7 +52,8 @@
 
 
                 </div>
-
+                @Html.PagedListPager(Model, page => Url.Action("Index",
+            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
             </div>
 
         </div>
