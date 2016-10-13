@@ -7,27 +7,56 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebStore.Models;
+using PagedList;
+using System.IO;
 
 namespace WebStore.Controllers
 {
     public class ProductsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Products
-        public ActionResult Index(string SearchString)
+        private ApplicationDbContext db = new ApplicationDbContext();
+        [AllowAnonymous]
+        public ActionResult Index(string sortOrder, string CurrentFilter, string searchString, int? page)
         {
+            ViewBag.CurrentSort = sortOrder;
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = CurrentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
             var products = from p in db.Products
                            select p;
-            if (!String.IsNullOrEmpty(SearchString))
+            if (!String.IsNullOrEmpty(searchString))
             {
-                products = products.Where(s => s.Name.Contains(SearchString));
+                products = products.Where(p => p.Name.Contains(searchString) ||
+                p.Description.Contains(searchString));
             }
-            return View(products);
-            //return View(db.Products.ToList());
-        }
 
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    products = products.OrderByDescending(p => p.Name);
+                    break;
+                case "price":
+                    products = products.OrderBy(p => p.Price);
+                    break;
+                default:
+                    products = products.OrderBy(p => p.Name);
+                    break;
+            }
+
+            int pageSize = 6;
+            int pageNumber = (page ?? 1);
+            return View(products.ToPagedList(pageNumber, pageSize));
+        }
         // GET: Products/Details/5
+        [AllowAnonymous]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -43,6 +72,7 @@ namespace WebStore.Controllers
         }
 
         // GET: Products/Create
+        [Authorize(Roles = "canEdit")]
         public ActionResult Create()
         {
             return View();
@@ -64,6 +94,7 @@ namespace WebStore.Controllers
 
             return View(product);
         }
+
 
         // GET: Products/Edit/5
         public ActionResult Edit(int? id)
@@ -130,5 +161,9 @@ namespace WebStore.Controllers
             }
             base.Dispose(disposing);
         }
+
+
     }
 }
+
+

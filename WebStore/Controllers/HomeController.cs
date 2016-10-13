@@ -15,7 +15,7 @@ namespace WebStore.Controllers
     public class HomeController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        [AllowAnonymous]
         public ActionResult Index(string sortOrder, string CurrentFilter,string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;

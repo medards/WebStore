@@ -4,51 +4,40 @@
     ViewBag.Title = "Details";
 }
 
-<h2>@Html.DisplayFor(model => model.Name)</h2>
 
-<div>
-    <hr />
-    <dl class="dl-horizontal">
+<div class="row">
 
-        <dd>
-            
-        </dd>
+    <div class="col-md-3">
+        <div class="list-group">
+            <a href="#" class="list-group-item active">Category 1</a>
+            <a href="#" class="list-group-item">Category 2</a>
+            <a href="#" class="list-group-item">Category 3</a>
+        </div>
+    </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Category)
-        </dt>
+    <div class="col-md-9">
 
-        <dd>
-            @Html.DisplayFor(model => model.Category)
-        </dd>
+        <div class="thumbnail">
+            <img class="img-responsive"src="/Images/@Html.DisplayFor(model => model.Image)" alt="@Html.DisplayFor(model => model.Image)" />
+            <div class="caption-full">
+                <h4 class="pull-right">@Html.DisplayFor(model => model.Price)€</h4>
+                <h4>
+                    <a href="@Html.DisplayFor(model => model.ProductId)">@Html.DisplayFor(model => model.Name)</a>
+                </h4>
+                <p>@Html.DisplayFor(model => model.Description)</p>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
+        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Image)
-        </dt>
+    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Image)
-        </dd>
-
-    </dl>
 </div>
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Delete", "Delete", new { id = Model.ProductId }) |
+    @Html.ActionLink("Back to Browse", "Index")
 </p>

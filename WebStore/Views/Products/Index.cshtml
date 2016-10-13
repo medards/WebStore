@@ -1,62 +1,53 @@
-﻿@model IEnumerable<WebStore.Models.Product>
-
-@{
+﻿@{
     ViewBag.Title = "Index";
 }
+@model PagedList.IPagedList<WebStore.Models.Product>
+@using PagedList.Mvc;
 
-<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
 
-    @using (Html.BeginForm()) {
-        <p> Titile: @Html.TextBox("SearchString")<br/>
-        <input type="submit" value="Filter" /></p>
-                   }
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Category)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Image)
-        </th>
-        <th></th>
-    </tr>
+        <div class="row">
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Category)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Image)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ProductId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ProductId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ProductId })
-        </td>
-    </tr>
+            <div class="col-md-3">
+                <p class="lead">Shop Name</p>
+                <div class="list-group">
+                    <a href="#" class="list-group-item">Category 1</a>
+                    <a href="#" class="list-group-item">Category 2</a>
+                    <a href="#" class="list-group-item">Category 3</a>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+
+               
+
+                <div class="row">
+@foreach (var item in Model)
+{
+                    <div class="col-sm-4 col-lg-4 col-md-4">
+                        <div class="thumbnail">
+                            <img src="/Images/@item.Image" alt="">
+                            <div class="caption">
+                                <h4 class="pull-right">@Html.DisplayFor(modelItem => item.Price)€</h4>
+                                <h4>
+                                    <a href="Products/Details/@Html.DisplayFor(modelItem => item.ProductId)">@Html.DisplayFor(modelItem => item.Name)</a>
+                                </h4>
+
+                                @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.ProductId })
+                                
+                            </div>
+
+                        </div>
+                    </div>
 }
 
-</table>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+

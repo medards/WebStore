@@ -2,64 +2,11 @@
 @{
     ViewBag.Title = "Home Page";
 }
-@model PagedList.IPagedList<WebStore.Models.Product>
-@using PagedList.Mvc;
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Categories</h2>
-        <ul>
-         <li>Am</li>
-          <li>bam</li>
-            <li>
-                pet
-            </li>
-            <li>podgan</li>
-        </ul>
-    </div>
-        <div class="col-md-8">
-            <div class="form-group"></div>
-            @using (Html.BeginForm("Index","Home", FormMethod.Get))
-            {
-                <p>
-                    @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
-                    <input type="submit" class="btn" value="Search" />
-                </p>
-            }
-            </div>
-        <h2>Products</h2>
-            <table>
-            @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Category)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Image)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }) |
-            @Html.ActionLink("Details", "Details", new { id = item.ProductId }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.ProductId })
-        </td>
-    </tr>
-}
 
-                </table>
 
-        </div>
-                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-                    @Html.PagedListPager(Model, page => Url.Action("Index",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+<div class="jumbotron">
+    <h1>Simple Web Store</h1>
+    <p class="lead">This is a simple web store made using asp.net mvc.</p>
+    <p><a class="btn btn-lg btn-success" href="~/Products" role="button">Browse</a></p>
 </div>

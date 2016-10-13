@@ -2,7 +2,8 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@ViewBag.Title - Web Store</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -32,7 +33,8 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Store", "Index", "Products")</li>
+                    <li>@Html.ActionLink("Browse", "Index", "Products")</li>
+                    <li>@Html.ActionLink("Add Product", "Create", "Products")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
 
@@ -41,11 +43,14 @@
     </div>
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Simple Web Store</p>
-        </footer>
     </div>
+    
+        <footer class="footer">
+            <div class="container">
+                <p>&copy; @DateTime.Now.Year - Simple Web Store</p>
+                </div>
+</footer>
+    
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
